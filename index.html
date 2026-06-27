@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Production WO Status Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-row">
+    <div>
+      <p class="eyebrow">Part Center &middot; Work Order Listing</p>
+      <h1>Production WO Status Tracker</h1>
+    </div>
+    <div class="stamp">
+      <span class="conn-dot demo" id="connDot"></span>
+      <span id="connLabel">DEMO MODE — data dari snapshot JULY'26</span>
+    </div>
+  </div>
+</header>
+
+<section class="filterbar">
+  <div class="filter-grid">
+    <div class="field">
+      <label for="fLine">Line</label>
+      <select id="fLine">
+        <option value="">Semua Line</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="fDate">Prod Date</label>
+      <input type="date" id="fDate">
+    </div>
+    <div class="field">
+      <label for="fModel">Model (optional)</label>
+      <select id="fModel">
+        <option value="">Semua Model</option>
+      </select>
+    </div>
+    <div class="field" style="min-width:180px;">
+      <label for="fSearch">Cari Item No. / Doc No.</label>
+      <input type="text" id="fSearch" placeholder="cth: FS0000464S">
+    </div>
+    <button class="btn ghost" id="btnReset">Reset</button>
+  </div>
+</section>
+
+<div class="kpis" id="kpiStrip"></div>
+
+<main class="results">
+  <p class="results-meta" id="resultsMeta">—</p>
+  <div id="resultsList"></div>
+</main>
+
+<p class="foot">Production WO Status Tracker &mdash; static site, data via Google Sheets / Apps Script &mdash; lihat README.md untuk setup</p>
+
+<script src="assets/demo-data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
