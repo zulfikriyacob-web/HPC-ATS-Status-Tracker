@@ -8,7 +8,7 @@
 // (reads/writes only affect this browser tab, nothing is saved).
 // ----------------------------------------------------------------
 const CONFIG = {
-  APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbzKrUFc0P3OAi4vwhAfbCvzHdOrAFOC1fnnHca1JHKNQVLLeT_fAal0ZjpszVxPvzzRqQ/exec", // e.g. "https://script.google.com/macros/s/AKfycb.../exec"
+  APPS_SCRIPT_URL: "", // e.g. "https://script.google.com/macros/s/AKfycb.../exec"
 };
 
 const PROD_STATUS_OPTIONS = [
@@ -256,13 +256,13 @@ function cardHTML(r){
     <div class="wo-head" id="head-${r.ID}">
       <div>
         <div class="wo-id">ID ${r.ID} &middot; ${r.ItemNo}${r.RHside ? ' &middot; ' + r.RHside : ''}</div>
-        <p class="wo-title">${r.ItemDescription}</p>
         <div class="wo-sub">
           <span>Model <b>${r.Model}</b></span>
           <span>WO Qty <b>${r.WOQty}</b></span>
           <span>Prod <b>${fmtDate(r.ProdDate)}</b></span>
           <span>DI <b>${fmtDate(r.DIDate)}</b></span>
         </div>
+        <p class="wo-title">${r.ItemDescription}</p>
       </div>
       <div class="wo-right">
         <span class="line-chip">${r.Line}</span>

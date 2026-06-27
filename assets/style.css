@@ -281,17 +281,19 @@ a{color:inherit;}
   font-weight: 600;
   font-size: 14.5px;
   color: var(--ink);
-  margin: 2px 0 0;
+  margin: 4px 0 0;
 }
 .wo-sub{
   font-family: var(--mono);
-  font-size: 11.5px;
-  color: #6b6457;
-  margin-top: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 2px;
   display:flex;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
 }
+.wo-sub span{ color: #6b6457; font-weight: 400; }
 .wo-sub span b{ color: var(--ink); font-weight: 600; }
 
 .wo-right{
