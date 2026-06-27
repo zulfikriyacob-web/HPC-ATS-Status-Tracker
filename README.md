@@ -7,7 +7,7 @@ dari browser, sync ke Google Sheet.
 **3 tab:**
 - **WO Tracker** — filter & key-in data (per WO)
 - **Daily Summary** — ringkasan harian per Line (sama macam sheet "ALL LINES - Daily Summary" dalam Excel): cumulative backlog, % completed, flag
-- **Qty Trend** — chart Actual vs Target qty harian (boleh pilih Line atau "Semua Line combined"), guna [Chart.js](https://www.chartjs.org/) (load terus dari CDN, takyah install apa-apa)
+- **Qty Trend** — chart Actual vs Target qty harian (boleh pilih Line atau "Semua Line combined") — chart dibina sendiri pakai SVG (takda dependency CDN luar, so takkan gagal load disebabkan network/firewall block)
 
 ```
 site/

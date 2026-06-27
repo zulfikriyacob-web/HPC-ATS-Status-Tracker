@@ -475,7 +475,6 @@ function summarySectionHTML(line, s){
 // ==================================================================
 // QTY TREND VIEW — Actual vs Target over time, optional Line filter
 // ==================================================================
-let trendChartInstance = null;
 
 function populateTrendLineFilter(){
   const lines = [...new Set(RECORDS.map(r => r.Line))].sort();
@@ -506,30 +505,13 @@ function computeTrendData(){
 
 function renderTrend(){
   const data = computeTrendData();
-  const ctx = document.getElementById('trendChart');
-
-  if (trendChartInstance) trendChartInstance.destroy();
-  trendChartInstance = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: data.map(d => fmtDate(d.date)),
-      datasets: [
-        { type: 'bar', label: 'Target (WO Qty Plan)', data: data.map(d => d.target), backgroundColor: '#9DB6CE', order: 2 },
-        { type: 'bar', label: 'Actual (Produced)', data: data.map(d => d.actual), backgroundColor: '#C4501C', order: 2 },
-        { type: 'line', label: 'Cumulative Backlog', data: data.map(d => d.cumBacklog), borderColor: '#1F4E78',
-          backgroundColor: '#1F4E78', yAxisID: 'y1', tension: 0, order: 1, pointRadius: 3 },
-      ]
-    },
-    options: {
-      responsive: true,
-      interaction: { mode: 'index', intersect: false },
-      scales: {
-        y: { beginAtZero: true, title: { display: true, text: 'Qty' } },
-        y1: { beginAtZero: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Cumulative Backlog' } },
-      },
-      plugins: { legend: { position: 'bottom', labels: { font: { family: "'IBM Plex Sans'" } } } }
-    }
-  });
+  const chartRoot = document.getElementById('trendChart');
+  try {
+    chartRoot.innerHTML = buildTrendSVG(data);
+  } catch (err) {
+    console.error('Gagal bina chart:', err);
+    chartRoot.innerHTML = `<p style="font-family:var(--mono);font-size:12px;color:var(--bad-ink);">Tak boleh bina chart — ${err.message}</p>`;
+  }
 
   const root = document.getElementById('trendTableRoot');
   const rowsHTML = data.map(d => `
@@ -548,4 +530,96 @@ function renderTrend(){
     <p style="font-family:var(--mono);font-size:11px;color:#847d6e;margin-top:8px;">
       Nota: "Actual" tarik dari Qty Produced — masih 0 sehingga di key-in dalam tab "WO Tracker".
     </p>`;
+}
+
+// Self-contained SVG combo chart (grouped bars + line, dual axis) — no external library.
+function buildTrendSVG(data){
+  if (!data || data.length === 0){
+    return `<p style="font-family:var(--mono);font-size:12px;color:#847d6e;padding:20px;">Takda data berjadual untuk dipaparkan.</p>`;
+  }
+  const W = 900, H = 380;
+  const ML = 54, MR = 60, MT = 40, MB = 70;
+  const plotW = W - ML - MR, plotH = H - MT - MB;
+  const n = data.length;
+  const slotW = plotW / n;
+
+  const maxQty = Math.max(1, ...data.map(d => Math.max(d.target, d.actual))) * 1.15;
+  const maxBacklog = Math.max(1, ...data.map(d => d.cumBacklog)) * 1.15;
+  const minBacklog = Math.min(0, ...data.map(d => d.cumBacklog));
+
+  const yQty = v => MT + plotH - (v / maxQty) * plotH;
+  const yBack = v => MT + plotH - ((v - minBacklog) / (maxBacklog - minBacklog || 1)) * plotH;
+
+  const barW = Math.min(22, slotW * 0.32);
+  const gap = 4;
+
+  let bars = '';
+  let lineXY = [];
+  data.forEach((d, i) => {
+    const cx = ML + i * slotW + slotW / 2;
+    const xt = cx - barW - gap/2;
+    const xa = cx + gap/2;
+    const ht = plotH - (yQty(d.target) - MT);
+    const ha = plotH - (yQty(d.actual) - MT);
+    bars += `<rect x="${xt}" y="${yQty(d.target)}" width="${barW}" height="${Math.max(ht,0)}" fill="#9DB6CE" rx="1.5"/>`;
+    bars += `<rect x="${xa}" y="${yQty(d.actual)}" width="${barW}" height="${Math.max(ha,0)}" fill="#C4501C" rx="1.5"/>`;
+    lineXY.push([cx, yBack(d.cumBacklog)]);
+  });
+
+  const linePath = lineXY.map((p,i) => (i===0?'M':'L') + p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+  const dots = lineXY.map(p => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.5" fill="#1F4E78"/>`).join('');
+
+  // gridlines + qty axis labels (left)
+  let grid = '', qtyLabels = '';
+  const steps = 4;
+  for (let s = 0; s <= steps; s++){
+    const val = (maxQty / steps) * s;
+    const y = yQty(val);
+    grid += `<line x1="${ML}" y1="${y}" x2="${ML+plotW}" y2="${y}" stroke="#e8e4da" stroke-width="1"/>`;
+    qtyLabels += `<text x="${ML-8}" y="${y+3}" text-anchor="end" font-size="10" font-family="var(--mono)" fill="#847d6e">${Math.round(val)}</text>`;
+  }
+  // backlog axis labels (right) — reuse same gridlines positions but label backlog scale
+  let backLabels = '';
+  for (let s = 0; s <= steps; s++){
+    const val = minBacklog + ((maxBacklog - minBacklog) / steps) * s;
+    const y = yBack(val);
+    backLabels += `<text x="${ML+plotW+8}" y="${y+3}" text-anchor="start" font-size="10" font-family="var(--mono)" fill="#1F4E78">${Math.round(val)}</text>`;
+  }
+
+  // x-axis date labels (rotated if many)
+  const rotate = n > 7;
+  let xLabels = '';
+  data.forEach((d,i) => {
+    const cx = ML + i*slotW + slotW/2;
+    const y = MT + plotH + 16;
+    const label = fmtDate(d.date);
+    if (rotate){
+      xLabels += `<text x="${cx}" y="${y}" font-size="10" font-family="var(--mono)" fill="#6b6457" transform="rotate(-40 ${cx} ${y})" text-anchor="end">${label}</text>`;
+    } else {
+      xLabels += `<text x="${cx}" y="${y}" font-size="10.5" font-family="var(--mono)" fill="#6b6457" text-anchor="middle">${label}</text>`;
+    }
+  });
+
+  const legendY = 16;
+  const legend = `
+    <rect x="${ML}" y="${legendY-9}" width="11" height="11" fill="#9DB6CE"/>
+    <text x="${ML+16}" y="${legendY}" font-size="11" font-family="var(--body)" fill="#1a1d1f">Target</text>
+    <rect x="${ML+78}" y="${legendY-9}" width="11" height="11" fill="#C4501C"/>
+    <text x="${ML+94}" y="${legendY}" font-size="11" font-family="var(--body)" fill="#1a1d1f">Actual</text>
+    <line x1="${ML+170}" y1="${legendY-4}" x2="${ML+186}" y2="${legendY-4}" stroke="#1F4E78" stroke-width="2.5"/>
+    <circle cx="${ML+178}" cy="${legendY-4}" r="3" fill="#1F4E78"/>
+    <text x="${ML+192}" y="${legendY}" font-size="11" font-family="var(--body)" fill="#1a1d1f">Cumulative Backlog</text>
+  `;
+
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+    ${grid}
+    <line x1="${ML}" y1="${MT+plotH}" x2="${ML+plotW}" y2="${MT+plotH}" stroke="#d8d3c7" stroke-width="1.5"/>
+    ${bars}
+    <path d="${linePath}" fill="none" stroke="#1F4E78" stroke-width="2.5"/>
+    ${dots}
+    ${qtyLabels}
+    ${backLabels}
+    ${xLabels}
+    ${legend}
+  </svg>`;
 }
