@@ -8,7 +8,7 @@
 // (reads/writes only affect this browser tab, nothing is saved).
 // ----------------------------------------------------------------
 const CONFIG = {
-  APPS_SCRIPT_URL: "", // e.g. "https://script.google.com/macros/s/AKfycb.../exec"
+  APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbzKrUFc0P3OAi4vwhAfbCvzHdOrAFOC1fnnHca1JHKNQVLLeT_fAal0ZjpszVxPvzzRqQ/exec", // e.g. "https://script.google.com/macros/s/AKfycb.../exec"
 };
 
 const PROD_STATUS_OPTIONS = [
