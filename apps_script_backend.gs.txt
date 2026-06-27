@@ -1,0 +1,106 @@
+/**
+ * Production WO Status Tracker — Apps Script backend
+ * -----------------------------------------------------
+ * Macam mana nak pakai:
+ * 1. Buka Google Sheet "Production WO Status Tracker - DATA"
+ * 2. Extensions > Apps Script
+ * 3. Padam apa-apa code default, copy-paste SEMUA code ni
+ * 4. Save (ikon disket / Ctrl+S), namakan project apa-apa pun boleh
+ * 5. Deploy > New deployment > pilih type "Web app"
+ *      - Execute as: Me
+ *      - Who has access: Anyone
+ * 6. Authorize bila Google tanya (akaun sendiri)
+ * 7. Copy "Web app URL" yang Google bagi — paste kat CONFIG.APPS_SCRIPT_URL
+ *    dalam assets/app.js
+ *
+ * Sheet tab name kena sama dengan SHEET_NAME kat bawah (default: "Sheet1").
+ * Row 1 = header (nama column), data start row 2.
+ */
+
+const SHEET_NAME = "Sheet1"; // <-- tukar ni kalau tab Google Sheet awak nama lain
+
+function getSheet_() {
+  return SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+}
+
+function sheetToObjects_() {
+  const sheet = getSheet_();
+  const values = sheet.getDataRange().getValues();
+  const headers = values[0];
+  const rows = values.slice(1);
+  return rows
+    .filter(r => r.some(c => c !== "" && c !== null))
+    .map(r => {
+      const obj = {};
+      headers.forEach((h, i) => {
+        let v = r[i];
+        if (v instanceof Date) {
+          v = Utilities.formatDate(v, Session.getScriptTimeZone(), "yyyy-MM-dd");
+        }
+        obj[h] = v;
+      });
+      return obj;
+    });
+}
+
+function jsonResponse_(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doGet(e) {
+  const action = e.parameter.action || "list";
+  if (action === "list") {
+    const data = sheetToObjects_();
+    return jsonResponse_({ ok: true, data: data });
+  }
+  return jsonResponse_({ ok: false, error: "Unknown action: " + action });
+}
+
+function doPost(e) {
+  let payload;
+  try {
+    payload = JSON.parse(e.postData.contents);
+  } catch (err) {
+    return jsonResponse_({ ok: false, error: "Invalid JSON body" });
+  }
+
+  if (payload.action === "update") {
+    return handleUpdate_(payload);
+  }
+  return jsonResponse_({ ok: false, error: "Unknown action: " + payload.action });
+}
+
+// Editable fields a planner can update from the web app.
+// Add/remove field names here if you change which columns are editable.
+const EDITABLE_FIELDS = [
+  "ActualProdDate", "QtyProduced", "ProductionStatus",
+  "DateAdjustment", "DeliveryStatus", "Remarks"
+];
+
+function handleUpdate_(payload) {
+  const sheet = getSheet_();
+  const values = sheet.getDataRange().getValues();
+  const headers = values[0];
+  const idCol = headers.indexOf("ID");
+  if (idCol === -1) return jsonResponse_({ ok: false, error: "Column 'ID' tak jumpa kat sheet" });
+
+  let targetRow = -1;
+  for (let i = 1; i < values.length; i++) {
+    if (String(values[i][idCol]) === String(payload.ID)) {
+      targetRow = i + 1; // 1-indexed for getRange
+      break;
+    }
+  }
+  if (targetRow === -1) return jsonResponse_({ ok: false, error: "ID " + payload.ID + " tak jumpa" });
+
+  EDITABLE_FIELDS.forEach(field => {
+    const col = headers.indexOf(field);
+    if (col !== -1 && payload.hasOwnProperty(field)) {
+      sheet.getRange(targetRow, col + 1).setValue(payload[field]);
+    }
+  });
+
+  return jsonResponse_({ ok: true, updatedId: payload.ID });
+}

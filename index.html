@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -21,40 +22,70 @@
       <span id="connLabel">DEMO MODE — data dari snapshot JULY'26</span>
     </div>
   </div>
+  <nav class="tabnav">
+    <button class="tab-btn active" data-view="tracker">WO Tracker</button>
+    <button class="tab-btn" data-view="summary">Daily Summary</button>
+    <button class="tab-btn" data-view="trend">Qty Trend</button>
+  </nav>
 </header>
 
-<section class="filterbar">
-  <div class="filter-grid">
-    <div class="field">
-      <label for="fLine">Line</label>
-      <select id="fLine">
-        <option value="">Semua Line</option>
-      </select>
+<section class="view" id="view-tracker">
+  <section class="filterbar">
+    <div class="filter-grid">
+      <div class="field">
+        <label for="fLine">Line</label>
+        <select id="fLine">
+          <option value="">Semua Line</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="fDate">Prod Date</label>
+        <input type="date" id="fDate">
+      </div>
+      <div class="field">
+        <label for="fModel">Model (optional)</label>
+        <select id="fModel">
+          <option value="">Semua Model</option>
+        </select>
+      </div>
+      <div class="field" style="min-width:180px;">
+        <label for="fSearch">Cari Item No. / Doc No.</label>
+        <input type="text" id="fSearch" placeholder="cth: FS0000464S">
+      </div>
+      <button class="btn ghost" id="btnReset">Reset</button>
     </div>
-    <div class="field">
-      <label for="fDate">Prod Date</label>
-      <input type="date" id="fDate">
-    </div>
-    <div class="field">
-      <label for="fModel">Model (optional)</label>
-      <select id="fModel">
-        <option value="">Semua Model</option>
-      </select>
-    </div>
-    <div class="field" style="min-width:180px;">
-      <label for="fSearch">Cari Item No. / Doc No.</label>
-      <input type="text" id="fSearch" placeholder="cth: FS0000464S">
-    </div>
-    <button class="btn ghost" id="btnReset">Reset</button>
-  </div>
+  </section>
+
+  <div class="kpis" id="kpiStrip"></div>
+
+  <main class="results">
+    <p class="results-meta" id="resultsMeta">—</p>
+    <div id="resultsList"></div>
+  </main>
 </section>
 
-<div class="kpis" id="kpiStrip"></div>
+<section class="view" id="view-summary" hidden>
+  <main class="results" id="summaryRoot"></main>
+</section>
 
-<main class="results">
-  <p class="results-meta" id="resultsMeta">—</p>
-  <div id="resultsList"></div>
-</main>
+<section class="view" id="view-trend" hidden>
+  <section class="filterbar">
+    <div class="filter-grid">
+      <div class="field">
+        <label for="tLine">Line</label>
+        <select id="tLine">
+          <option value="">Semua Line (combined)</option>
+        </select>
+      </div>
+    </div>
+  </section>
+  <main class="results">
+    <div class="chart-card">
+      <canvas id="trendChart" height="110"></canvas>
+    </div>
+    <div id="trendTableRoot"></div>
+  </main>
+</section>
 
 <p class="foot">Production WO Status Tracker &mdash; static site, data via Google Sheets / Apps Script &mdash; lihat README.md untuk setup</p>
 
@@ -62,3 +93,4 @@
 <script src="assets/app.js"></script>
 </body>
 </html>
+

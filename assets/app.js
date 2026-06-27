@@ -42,8 +42,24 @@ async function boot(){
   }
   updateConnIndicator();
   populateFilters();
+  populateTrendLineFilter();
   bindEvents();
+  bindTabs();
   render();
+}
+
+function bindTabs(){
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const view = btn.dataset.view;
+      document.querySelectorAll('.view').forEach(v => v.hidden = true);
+      document.getElementById(`view-${view}`).hidden = false;
+      if (view === 'summary') renderSummary();
+      if (view === 'trend') renderTrend();
+    });
+  });
 }
 
 function updateConnIndicator(){
@@ -352,3 +368,184 @@ async function saveRow(id){
 }
 
 boot();
+
+// ==================================================================
+// DAILY SUMMARY VIEW — mirrors the Excel "ALL LINES - Daily Summary"
+// sheet: one section per Line, grouped by Prod Date.
+// ==================================================================
+function computeLineSummary(lineRecords){
+  const derived = lineRecords.map(deriveRow);
+  const scheduled = derived.filter(r => r.ProdDate !== 'TBA' && r.ProdDate !== 'NO PLAN');
+  const unscheduled = derived.filter(r => r.ProdDate === 'TBA' || r.ProdDate === 'NO PLAN');
+
+  const dates = [...new Set(scheduled.map(r => r.ProdDate))].sort();
+  let cumBacklog = 0;
+  const dateRows = dates.map(d => {
+    const group = scheduled.filter(r => r.ProdDate === d);
+    const totalQty = group.reduce((a,r) => a + (Number(r.WOQty)||0), 0);
+    const produced = group.reduce((a,r) => a + (Number(r.QtyProduced)||0), 0);
+    const carryFwd = group.reduce((a,r) => a + r._carryFwd, 0);
+    cumBacklog += carryFwd;
+    const diDates = group.map(r => parseDate(r.DIDate)).filter(Boolean);
+    const nearestDI = diDates.length ? new Date(Math.min(...diDates)) : null;
+    const pct = totalQty === 0 ? null : produced / totalQty;
+    return { date: d, count: group.length, totalQty, produced, carryFwd, cumBacklog, nearestDI, pct };
+  });
+
+  const unschedCount = unscheduled.length;
+  const unschedQty = unscheduled.reduce((a,r) => a + (Number(r.WOQty)||0), 0);
+
+  const kpi = {
+    totalWO: derived.length,
+    totalQty: derived.reduce((a,r) => a + (Number(r.WOQty)||0), 0),
+    produced: derived.reduce((a,r) => a + (Number(r.QtyProduced)||0), 0),
+    outstanding: derived.reduce((a,r) => a + r._carryFwd, 0),
+  };
+
+  return { dateRows, unschedCount, unschedQty, kpi };
+}
+
+function renderSummary(){
+  const lines = [...new Set(RECORDS.map(r => r.Line))].sort();
+  const root = document.getElementById('summaryRoot');
+  root.innerHTML = lines.map(line => {
+    const lineRecords = RECORDS.filter(r => r.Line === line);
+    const s = computeLineSummary(lineRecords);
+    return summarySectionHTML(line, s);
+  }).join('');
+}
+
+function summarySectionHTML(line, s){
+  const rowsHTML = s.dateRows.map(r => {
+    const cls = r.carryFwd > 0 ? 'row-warn' : 'row-ok';
+    const flag = r.carryFwd > 0
+      ? `<span class="flag-bad">&#9888; Ada backlog ${r.carryFwd} unit</span>`
+      : `<span class="flag-ok">OK</span>`;
+    return `<tr class="${cls}">
+      <td class="left">${fmtDate(r.date)} <span style="color:#9a9382;">(${new Date(r.date+'T00:00:00').toLocaleDateString('en-GB',{weekday:'short'})})</span></td>
+      <td>${r.count}</td>
+      <td>${r.totalQty}</td>
+      <td>${r.produced}</td>
+      <td>${r.carryFwd}</td>
+      <td>${r.cumBacklog}</td>
+      <td>${r.nearestDI ? fmtDate(r.nearestDI.toISOString().slice(0,10)) : '—'}</td>
+      <td>${r.pct === null ? '—' : Math.round(r.pct*100)+'%'}</td>
+      <td class="left">${flag}</td>
+    </tr>`;
+  }).join('');
+
+  const unschedHTML = `<tr class="unsched">
+    <td class="left">BELUM DIJADUALKAN</td>
+    <td>${s.unschedCount}</td>
+    <td>${s.unschedQty}</td>
+    <td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+    <td class="left">${s.unschedCount > 0 ? '<span class="flag-bad">&#9888; Belum ada Prod Date</span>' : ''}</td>
+  </tr>`;
+
+  const totalHTML = `<tr class="total-row">
+    <td class="left">JUMLAH KESELURUHAN</td>
+    <td>${s.kpi.totalWO}</td>
+    <td>${s.kpi.totalQty}</td>
+    <td>${s.kpi.produced}</td>
+    <td>${s.kpi.outstanding}</td>
+    <td>—</td><td>—</td>
+    <td>${s.kpi.totalQty===0?'—':Math.round(s.kpi.produced/s.kpi.totalQty*100)+'%'}</td>
+    <td></td>
+  </tr>`;
+
+  return `
+  <div class="summary-section">
+    <h2>${line} Line</h2>
+    <div class="summary-kpis">
+      <div class="kpi"><div class="num">${s.kpi.totalWO}</div><div class="lbl">Total WO</div></div>
+      <div class="kpi"><div class="num">${s.kpi.totalQty}</div><div class="lbl">Total Qty Plan</div></div>
+      <div class="kpi"><div class="num">${s.kpi.produced}</div><div class="lbl">Qty Produced</div></div>
+      <div class="kpi ${s.kpi.outstanding>0?'bad':'ok'}"><div class="num">${s.kpi.outstanding}</div><div class="lbl">Outstanding</div></div>
+    </div>
+    <table class="dtable">
+      <thead><tr>
+        <th>Prod Date</th><th>No. WO</th><th>Total Qty Plan</th><th>Qty Produced</th>
+        <th>Carry Fwd</th><th>Cumulative Backlog</th><th>Nearest DI</th><th>% Completed</th><th>Flag</th>
+      </tr></thead>
+      <tbody>${rowsHTML}${unschedHTML}${totalHTML}</tbody>
+    </table>
+  </div>`;
+}
+
+// ==================================================================
+// QTY TREND VIEW — Actual vs Target over time, optional Line filter
+// ==================================================================
+let trendChartInstance = null;
+
+function populateTrendLineFilter(){
+  const lines = [...new Set(RECORDS.map(r => r.Line))].sort();
+  const sel = document.getElementById('tLine');
+  lines.forEach(l => {
+    const opt = document.createElement('option');
+    opt.value = l; opt.textContent = l;
+    sel.appendChild(opt);
+  });
+  sel.addEventListener('change', renderTrend);
+}
+
+function computeTrendData(){
+  const lineVal = document.getElementById('tLine').value;
+  const pool = (lineVal ? RECORDS.filter(r => r.Line === lineVal) : RECORDS).map(deriveRow);
+  const scheduled = pool.filter(r => r.ProdDate !== 'TBA' && r.ProdDate !== 'NO PLAN');
+  const dates = [...new Set(scheduled.map(r => r.ProdDate))].sort();
+
+  let cum = 0;
+  return dates.map(d => {
+    const group = scheduled.filter(r => r.ProdDate === d);
+    const target = group.reduce((a,r) => a + (Number(r.WOQty)||0), 0);
+    const actual = group.reduce((a,r) => a + (Number(r.QtyProduced)||0), 0);
+    cum += (target - actual);
+    return { date: d, target, actual, variance: actual - target, cumBacklog: cum };
+  });
+}
+
+function renderTrend(){
+  const data = computeTrendData();
+  const ctx = document.getElementById('trendChart');
+
+  if (trendChartInstance) trendChartInstance.destroy();
+  trendChartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.map(d => fmtDate(d.date)),
+      datasets: [
+        { type: 'bar', label: 'Target (WO Qty Plan)', data: data.map(d => d.target), backgroundColor: '#9DB6CE', order: 2 },
+        { type: 'bar', label: 'Actual (Produced)', data: data.map(d => d.actual), backgroundColor: '#C4501C', order: 2 },
+        { type: 'line', label: 'Cumulative Backlog', data: data.map(d => d.cumBacklog), borderColor: '#1F4E78',
+          backgroundColor: '#1F4E78', yAxisID: 'y1', tension: 0, order: 1, pointRadius: 3 },
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: 'Qty' } },
+        y1: { beginAtZero: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Cumulative Backlog' } },
+      },
+      plugins: { legend: { position: 'bottom', labels: { font: { family: "'IBM Plex Sans'" } } } }
+    }
+  });
+
+  const root = document.getElementById('trendTableRoot');
+  const rowsHTML = data.map(d => `
+    <tr class="${d.variance < 0 ? 'row-warn' : 'row-ok'}">
+      <td class="left">${fmtDate(d.date)}</td>
+      <td>${d.target}</td>
+      <td>${d.actual}</td>
+      <td>${d.variance}</td>
+      <td>${d.cumBacklog}</td>
+    </tr>`).join('');
+  root.innerHTML = `
+    <table class="dtable">
+      <thead><tr><th>Prod Date</th><th>Target Qty</th><th>Actual Qty</th><th>Variance</th><th>Cumulative Backlog</th></tr></thead>
+      <tbody>${rowsHTML}</tbody>
+    </table>
+    <p style="font-family:var(--mono);font-size:11px;color:#847d6e;margin-top:8px;">
+      Nota: "Actual" tarik dari Qty Produced — masih 0 sehingga di key-in dalam tab "WO Tracker".
+    </p>`;
+}

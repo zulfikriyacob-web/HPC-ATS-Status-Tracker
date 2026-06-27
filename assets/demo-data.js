@@ -5,6 +5,198 @@ const DEMO_DATA = [
     "ID": 1,
     "Line": "DM",
     "Customer": "HPC",
+    "DocumentNumber": 612670027,
+    "CustomerRefNo": "4502254464",
+    "ItemNo": "FS0000692S",
+    "ItemDescription": "MIR ASSY RH-R,A/T DOOR",
+    "RHside": "Right side",
+    "Camera": "",
+    "Model": "T7AW",
+    "Variant": "1.8E,1.8V,HEV",
+    "SOQty": 5.0,
+    "WOQty": 5.0,
+    "ProdDate": "2026-06-02",
+    "DIDate": "2026-07-01",
+    "ETADemand": "2026-06-04",
+    "ActualProdDate": "",
+    "QtyProduced": "",
+    "ProductionStatus": "Delayed - Late Incoming Parts",
+    "DateAdjustment": "2026-06-26",
+    "DeliveryStatus": "Pending",
+    "Remarks": "ETA 16/6 | Re plan prod after 16/6 | WO 712681565 - HOLD | Prod Date reschedule 2026-06-02->2026-06-26 | DI Date reschedule 2026-06-18->2026-07-01"
+  },
+  {
+    "ID": 2,
+    "Line": "DM",
+    "Customer": "HPC",
+    "DocumentNumber": 612670028,
+    "CustomerRefNo": "4502261104",
+    "ItemNo": "FS0000692S",
+    "ItemDescription": "MIR ASSY RH-R,A/T DOOR",
+    "RHside": "Right side",
+    "Camera": "",
+    "Model": "T7AW",
+    "Variant": "1.8E,1.8V,HEV",
+    "SOQty": 5.0,
+    "WOQty": 5.0,
+    "ProdDate": "2026-06-02",
+    "DIDate": "2026-07-01",
+    "ETADemand": "2026-06-18",
+    "ActualProdDate": "",
+    "QtyProduced": "",
+    "ProductionStatus": "Delayed - Late Incoming Parts",
+    "DateAdjustment": "2026-06-26",
+    "DeliveryStatus": "Pending",
+    "Remarks": "ETA 16/6 | Re plan prod after 16/6 | WO 712681568 - HOLD | Prod Date reschedule 2026-06-02->2026-06-26 | DI Date reschedule 2026-06-18->2026-07-01"
+  },
+  {
+    "ID": 3,
+    "Line": "DM",
+    "Customer": "HPC",
+    "DocumentNumber": 612670050,
+    "CustomerRefNo": "4502271027",
+    "ItemNo": "FS0000694S",
+    "ItemDescription": "MIR ASSY RH-L,A/T DOOR",
+    "RHside": "Left side",
+    "Camera": "36580-T8N-Q010-M1",
+    "Model": "T7AW",
+    "Variant": "RS",
+    "SOQty": 4.0,
+    "WOQty": 4.0,
+    "ProdDate": "2026-06-02",
+    "DIDate": "2026-07-01",
+    "ETADemand": "2026-06-29",
+    "ActualProdDate": "",
+    "QtyProduced": "",
+    "ProductionStatus": "Delayed - Late Incoming Parts",
+    "DateAdjustment": "2026-06-26",
+    "DeliveryStatus": "Pending",
+    "Remarks": "ETA 16/6 | Re plan prod after 16/6 | WO 712681573 - HOLD | Prod Date reschedule 2026-06-02->2026-06-26"
+  },
+  {
+    "ID": 4,
+    "Line": "DM",
+    "Customer": "HPC",
+    "DocumentNumber": 612670058,
+    "CustomerRefNo": "4502269026",
+    "ItemNo": "FS0000692S",
+    "ItemDescription": "MIR ASSY RH-R,A/T DOOR",
+    "RHside": "Right side",
+    "Camera": "",
+    "Model": "T7AW",
+    "Variant": "1.8E,1.8V,HEV",
+    "SOQty": 1.0,
+    "WOQty": 1.0,
+    "ProdDate": "2026-06-02",
+    "DIDate": "2026-07-01",
+    "ETADemand": "2026-06-04",
+    "ActualProdDate": "",
+    "QtyProduced": "",
+    "ProductionStatus": "Delayed - Late Incoming Parts",
+    "DateAdjustment": "2026-06-26",
+    "DeliveryStatus": "Pending",
+    "Remarks": "ETA 16/6 | Re plan prod after 16/6 | WO 712681575 - HOLD | Prod Date reschedule 2026-06-02->2026-06-26 | DI Date reschedule 2026-06-18->2026-07-01"
+  },
+  {
+    "ID": 5,
+    "Line": "DM",
+    "Customer": "HPC",
+    "DocumentNumber": 612670058,
+    "CustomerRefNo": "4502269026",
+    "ItemNo": "FS0000691S",
+    "ItemDescription": "MIR ASSY RH-L,A/T DOOR",
+    "RHside": "Left side",
+    "Camera": "",
+    "Model": "T7AY",
+    "Variant": "1.8E,1.8V",
+    "SOQty": 5.0,
+    "WOQty": 5.0,
+    "ProdDate": "2026-06-08",
+    "DIDate": "2026-07-01",
+    "ETADemand": "2026-06-04",
+    "ActualProdDate": "",
+    "QtyProduced": "",
+    "ProductionStatus": "Delayed - Late Incoming Parts",
+    "DateAdjustment": "2026-06-25",
+    "DeliveryStatus": "Pending",
+    "Remarks": "ETA 16/6 | Re plan prod after 16/6 | Prod Date reschedule 2026-06-08->2026-06-25 | DI Date reschedule 2026-06-18->2026-07-01"
+  },
+  {
+    "ID": 6,
+    "Line": "DM",
+    "Customer": "HPC",
+    "DocumentNumber": 612670027,
+    "CustomerRefNo": "4502254464",
+    "ItemNo": "FS0000682S",
+    "ItemDescription": "MIR ASSY RH-R,R/C A/T S/T DOOR",
+    "RHside": "Right side",
+    "Camera": "ANTENNA ASSY EXT LF (MIRROR),38383-TSA-0030, QTY 1",
+    "Model": "TSAA,TSAY",
+    "Variant": "TSAA(V),TSAY(V)",
+    "SOQty": 5.0,
+    "WOQty": 5.0,
+    "ProdDate": "2026-06-19",
+    "DIDate": "2026-07-01",
+    "ETADemand": "2026-06-04",
+    "ActualProdDate": "",
+    "QtyProduced": "",
+    "ProductionStatus": "Delayed - Late Incoming Parts",
+    "DateAdjustment": "",
+    "DeliveryStatus": "Pending",
+    "Remarks": "Parts ETA 16/6"
+  },
+  {
+    "ID": 7,
+    "Line": "DM",
+    "Customer": "HPC",
+    "DocumentNumber": 612670028,
+    "CustomerRefNo": "4502261104",
+    "ItemNo": "FS0000682S",
+    "ItemDescription": "MIR ASSY RH-R,R/C A/T S/T DOOR",
+    "RHside": "Right side",
+    "Camera": "ANTENNA ASSY EXT LF (MIRROR),38383-TSA-0030, QTY 1",
+    "Model": "TSAA,TSAY",
+    "Variant": "TSAA(V),TSAY(V)",
+    "SOQty": 5.0,
+    "WOQty": 5.0,
+    "ProdDate": "2026-06-19",
+    "DIDate": "2026-07-01",
+    "ETADemand": "2026-06-18",
+    "ActualProdDate": "",
+    "QtyProduced": "",
+    "ProductionStatus": "Delayed - Late Incoming Parts",
+    "DateAdjustment": "",
+    "DeliveryStatus": "Pending",
+    "Remarks": "Parts ETA 16/6"
+  },
+  {
+    "ID": 8,
+    "Line": "DM",
+    "Customer": "ATS",
+    "DocumentNumber": 612571218,
+    "CustomerRefNo": "422500215",
+    "ItemNo": "FS0000681R",
+    "ItemDescription": "MIR ASSY RH-L,R/C S/T DOOR",
+    "RHside": "Left side",
+    "Camera": "",
+    "Model": "TSAA,TSAY",
+    "Variant": "TSAA(E),TSAY(E)",
+    "SOQty": 50.0,
+    "WOQty": 20.0,
+    "ProdDate": "2026-06-19",
+    "DIDate": "TBA",
+    "ETADemand": "2026-04-13",
+    "ActualProdDate": "",
+    "QtyProduced": "",
+    "ProductionStatus": "Delayed - Late Incoming Parts",
+    "DateAdjustment": "",
+    "DeliveryStatus": "Pending",
+    "Remarks": "Parts ETA 16/6"
+  },
+  {
+    "ID": 9,
+    "Line": "DM",
+    "Customer": "HPC",
     "DocumentNumber": 612670219,
     "CustomerRefNo": "4502278210",
     "ItemNo": "FS0000999S",
@@ -26,7 +218,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 2,
+    "ID": 10,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670219,
@@ -50,7 +242,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 3,
+    "ID": 11,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670140,
@@ -74,7 +266,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 4,
+    "ID": 12,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670163,
@@ -98,7 +290,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 5,
+    "ID": 13,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670178,
@@ -122,7 +314,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 6,
+    "ID": 14,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670209,
@@ -146,7 +338,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 7,
+    "ID": 15,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670090,
@@ -170,7 +362,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 8,
+    "ID": 16,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670090,
@@ -194,7 +386,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 9,
+    "ID": 17,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670090,
@@ -218,7 +410,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 10,
+    "ID": 18,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670101,
@@ -242,7 +434,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 11,
+    "ID": 19,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670101,
@@ -266,7 +458,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 12,
+    "ID": 20,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670123,
@@ -290,7 +482,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 13,
+    "ID": 21,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670053,
@@ -314,7 +506,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 14,
+    "ID": 22,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670057,
@@ -338,7 +530,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 15,
+    "ID": 23,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670057,
@@ -362,7 +554,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 16,
+    "ID": 24,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670074,
@@ -386,7 +578,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 17,
+    "ID": 25,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670101,
@@ -410,7 +602,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 18,
+    "ID": 26,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670101,
@@ -434,7 +626,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 19,
+    "ID": 27,
     "Line": "DM",
     "Customer": "ATS",
     "DocumentNumber": 612670155,
@@ -458,7 +650,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 20,
+    "ID": 28,
     "Line": "DM",
     "Customer": "ATS",
     "DocumentNumber": 612670155,
@@ -482,7 +674,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 21,
+    "ID": 29,
     "Line": "DM",
     "Customer": "ATS",
     "DocumentNumber": 612670155,
@@ -506,7 +698,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 22,
+    "ID": 30,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670053,
@@ -530,7 +722,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 23,
+    "ID": 31,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670057,
@@ -554,7 +746,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 24,
+    "ID": 32,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670057,
@@ -578,7 +770,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 25,
+    "ID": 33,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670090,
@@ -602,7 +794,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 26,
+    "ID": 34,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670090,
@@ -626,7 +818,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 27,
+    "ID": 35,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670101,
@@ -650,7 +842,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 28,
+    "ID": 36,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670101,
@@ -674,7 +866,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 29,
+    "ID": 37,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670124,
@@ -698,7 +890,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 30,
+    "ID": 38,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670129,
@@ -722,7 +914,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 31,
+    "ID": 39,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670140,
@@ -746,7 +938,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 32,
+    "ID": 40,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670053,
@@ -770,7 +962,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 33,
+    "ID": 41,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670074,
@@ -794,7 +986,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 34,
+    "ID": 42,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670074,
@@ -818,7 +1010,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 35,
+    "ID": 43,
     "Line": "DM",
     "Customer": "HPC",
     "DocumentNumber": 612670074,
@@ -842,7 +1034,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 36,
+    "ID": 44,
     "Line": "OH",
     "Customer": "HPC",
     "DocumentNumber": 612670090,
@@ -866,7 +1058,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 37,
+    "ID": 45,
     "Line": "OH",
     "Customer": "HPC",
     "DocumentNumber": 612670090,
@@ -890,7 +1082,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 38,
+    "ID": 46,
     "Line": "OH",
     "Customer": "HPC",
     "DocumentNumber": 612670090,
@@ -914,7 +1106,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 39,
+    "ID": 47,
     "Line": "OH",
     "Customer": "HPC",
     "DocumentNumber": 612670090,
@@ -938,7 +1130,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 40,
+    "ID": 48,
     "Line": "OH",
     "Customer": "HPC",
     "DocumentNumber": 612670219,
@@ -962,7 +1154,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 41,
+    "ID": 49,
     "Line": "OH",
     "Customer": "HPC",
     "DocumentNumber": 612670219,
@@ -986,7 +1178,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 42,
+    "ID": 50,
     "Line": "OH",
     "Customer": "HPC",
     "DocumentNumber": 612670090,
@@ -1010,7 +1202,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 43,
+    "ID": 51,
     "Line": "OH",
     "Customer": "HPC",
     "DocumentNumber": 612670101,
@@ -1034,7 +1226,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 44,
+    "ID": 52,
     "Line": "OH",
     "Customer": "HPC",
     "DocumentNumber": 612670101,
@@ -1058,7 +1250,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 45,
+    "ID": 53,
     "Line": "SENSOR",
     "Customer": "HPC",
     "DocumentNumber": 612670090,
@@ -1082,7 +1274,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 46,
+    "ID": 54,
     "Line": "SENSOR",
     "Customer": "HPC",
     "DocumentNumber": 612670053,
@@ -1106,7 +1298,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 47,
+    "ID": 55,
     "Line": "SENSOR",
     "Customer": "HPC",
     "DocumentNumber": 612670053,
@@ -1130,7 +1322,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 48,
+    "ID": 56,
     "Line": "SENSOR",
     "Customer": "HPC",
     "DocumentNumber": 612670053,
@@ -1154,7 +1346,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 49,
+    "ID": 57,
     "Line": "SENSOR",
     "Customer": "HPC",
     "DocumentNumber": 612670074,
@@ -1178,7 +1370,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 50,
+    "ID": 58,
     "Line": "SENSOR",
     "Customer": "HPC",
     "DocumentNumber": 612670074,
@@ -1202,7 +1394,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 51,
+    "ID": 59,
     "Line": "SENSOR",
     "Customer": "HPC",
     "DocumentNumber": 612670074,
@@ -1226,7 +1418,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 52,
+    "ID": 60,
     "Line": "PT-SW",
     "Customer": "HPC",
     "DocumentNumber": 612670057,
@@ -1250,7 +1442,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 53,
+    "ID": 61,
     "Line": "PT-SW",
     "Customer": "HPC",
     "DocumentNumber": 612670123,
@@ -1274,7 +1466,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 54,
+    "ID": 62,
     "Line": "PT-SW",
     "Customer": "HPC",
     "DocumentNumber": 612670123,
@@ -1298,7 +1490,7 @@ const DEMO_DATA = [
     "Remarks": ""
   },
   {
-    "ID": 55,
+    "ID": 63,
     "Line": "DM-CORD GR",
     "Customer": "HPC",
     "DocumentNumber": 612670074,

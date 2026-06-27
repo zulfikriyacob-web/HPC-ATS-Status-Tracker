@@ -103,7 +103,7 @@ a{color:inherit;}
   border-bottom: 1px solid var(--line);
   padding: 14px 22px;
   position: sticky;
-  top: 76px;
+  top: 112px;
   z-index: 25;
   box-shadow: 0 4px 10px -8px rgba(0,0,0,0.4);
 }
@@ -129,11 +129,25 @@ a{color:inherit;}
 .field select, .field input{
   font-family: var(--body);
   font-size: 14px;
-  padding: 9px 10px;
+  padding: 0 10px;
+  height: 42px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--paper);
   color: var(--ink);
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field select{
+  -webkit-appearance: auto;
+  appearance: auto;
+}
+.field input[type="date"]{
+  -webkit-appearance: none;
+}
+.field input[type="date"]::-webkit-date-and-time-value{
+  text-align: left;
 }
 .field select:focus, .field input:focus{
   outline: 2px solid var(--accent-2);
@@ -145,7 +159,8 @@ a{color:inherit;}
   letter-spacing: 0.04em;
   font-size: 13px;
   font-weight: 600;
-  padding: 10px 16px;
+  height: 42px;
+  padding: 0 16px;
   border-radius: var(--radius);
   border: 1px solid var(--ink);
   background: var(--ink);
@@ -394,15 +409,111 @@ a{color:inherit;}
   padding: 20px;
 }
 
+/* ---------- Tab navigation ---------- */
+.tabnav{
+  display:flex;
+  gap: 4px;
+  margin-top: 12px;
+}
+.tab-btn{
+  font-family: var(--display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-bottom: none;
+  border-radius: 3px 3px 0 0;
+  background: rgba(255,255,255,0.06);
+  color: #c9c2b3;
+  cursor: pointer;
+}
+.tab-btn:hover{ background: rgba(255,255,255,0.12); color:#fff; }
+.tab-btn.active{
+  background: var(--paper);
+  color: var(--ink);
+}
+.view[hidden]{ display:none; }
+
+/* ---------- Daily Summary view ---------- */
+.summary-section{
+  margin-bottom: 28px;
+}
+.summary-section h2{
+  font-family: var(--display);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 18px;
+  color: var(--ink);
+  border-left: 5px solid var(--accent-2);
+  padding-left: 10px;
+  margin: 0 0 10px;
+}
+.summary-kpis{
+  display:flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+table.dtable{
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  font-size: 13px;
+}
+table.dtable th, table.dtable td{
+  border: 1px solid var(--line-soft);
+  padding: 7px 10px;
+  text-align: center;
+}
+table.dtable th{
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--steel);
+  color: #fff;
+}
+table.dtable td.left{ text-align:left; }
+table.dtable td.mono{ font-family: var(--mono); }
+table.dtable tr.row-warn td{ background: var(--warn-bg); }
+table.dtable tr.row-ok td{ background: var(--ok-bg); }
+table.dtable tr.unsched td{ background: var(--idle-bg); font-style: italic; }
+table.dtable tr.total-row td{ background: var(--line-soft); font-weight:700; }
+.flag-ok{ color: var(--ok-ink); font-family: var(--mono); font-size:11.5px; }
+.flag-bad{ color: var(--bad-ink); font-family: var(--mono); font-size:11.5px; }
+
+/* ---------- Trend view ---------- */
+.chart-card{
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 640px){
   .masthead{ padding: 14px 14px 12px; }
   .masthead h1{ font-size: 18px; }
-  .filterbar{ padding: 12px 14px; top: 70px;}
+  .filterbar{ padding: 12px 14px; top: 104px;}
+  .filter-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .field{ min-width: 0; }
+  .field[style*="min-width:180px"]{ grid-column: span 2; }
+  #btnReset{ grid-column: span 2; }
   .kpis{ padding: 10px 14px 0; }
   .results{ padding: 12px 14px 50px; }
   .wo-head{ flex-direction: column; }
   .wo-right{ align-items:flex-start; flex-direction:row; text-align:left; }
+  table.dtable{ font-size: 11.5px; }
+  table.dtable th, table.dtable td{ padding: 5px 6px; }
+  .tab-btn{ font-size: 11.5px; padding: 7px 10px; }
 }
 
 @media (prefers-reduced-motion: reduce){
